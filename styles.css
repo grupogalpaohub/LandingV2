@@ -148,6 +148,12 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Ubuntu', sans-serif;
 }
 
+.proof-unit {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--azul-escuro);
+}
+
 .proof-label {
     font-size: 0.9rem;
     color: var(--cinza-medio);

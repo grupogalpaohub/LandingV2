@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (number && !counter.classList.contains('animated')) {
                         counter.classList.add('animated');
                         // Para métricas com unidades, animar apenas o número
-                        const unitSpan = counter.querySelector('.metric-unit');
+                        const unitSpan = counter.querySelector('.metric-unit, .proof-unit');
                         if (unitSpan) {
                             const unit = unitSpan.textContent;
                             const numberSpan = document.createElement('span');
