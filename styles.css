@@ -352,11 +352,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .metric-number {
-    display: block;
+    display: inline-block;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--azul-medio);
     font-family: 'Ubuntu', sans-serif;
+}
+
+.metric-unit {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--azul-escuro);
 }
 
 .metric-label {
@@ -364,6 +370,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--cinza-medio);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    display: block;
+    margin-top: 0.2rem;
 }
 
 /* Formulário */

@@ -142,7 +142,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     const number = parseInt(text.replace(/[^\d]/g, ''));
                     if (number && !counter.classList.contains('animated')) {
                         counter.classList.add('animated');
-                        animateCounter(counter, number);
+                        // Para métricas com unidades, animar apenas o número
+                        const unitSpan = counter.querySelector('.metric-unit');
+                        if (unitSpan) {
+                            const unit = unitSpan.textContent;
+                            const numberSpan = document.createElement('span');
+                            numberSpan.textContent = '0';
+                            counter.innerHTML = '';
+                            counter.appendChild(numberSpan);
+                            counter.appendChild(unitSpan);
+                            animateCounter(numberSpan, number);
+                        } else {
+                            animateCounter(counter, number);
+                        }
                     }
                 });
                 counterObserver.unobserve(entry.target);
