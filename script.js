@@ -161,6 +161,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('loaded');
     });
 
+    // 8. Garantir que o título principal não tenha animação
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        heroTitle.style.opacity = '1';
+        heroTitle.style.transform = 'translateY(0)';
+    }
+
     console.log('Todas as funcionalidades foram inicializadas!');
 });
 
@@ -202,6 +209,12 @@ style.textContent = `
     .faq-item.fade-in-visible {
         opacity: 1;
         transform: translateY(0);
+    }
+    
+    /* Garantir que o título principal não tenha animação */
+    .hero-title {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
     }
     
     /* Transições suaves para botões */

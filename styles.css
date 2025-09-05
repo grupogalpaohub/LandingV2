@@ -141,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .proof-number {
-    display: block;
+    display: inline-block;
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--azul-medio);
@@ -153,6 +153,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--cinza-medio);
     text-transform: uppercase;
     letter-spacing: 1px;
+    display: block;
+    margin-top: 0.2rem;
 }
 
 .cta-primary {
