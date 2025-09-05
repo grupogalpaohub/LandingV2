@@ -1,6 +1,8 @@
-// Animações de entrada
+// Landing Page - Diagnóstico 360 - JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Observador de interseção para animações
+    console.log('Script carregado com sucesso!');
+    
+    // 1. Animações de entrada com Intersection Observer
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -9,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
+                entry.target.classList.add('fade-in-visible');
+                // Parar de observar este elemento após animação
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -17,14 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Elementos para animar
     const animateElements = document.querySelectorAll('.step, .benefit, .case, .faq-item');
     animateElements.forEach(el => {
+        el.classList.add('fade-in');
         observer.observe(el);
     });
 
-    // Smooth scroll para links internos
+    // 2. Smooth scroll para links internos
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Validação e envio do formulário
+    // 3. Validação e envio do formulário
     const form = document.getElementById('diagnosticForm');
     if (form) {
         form.addEventListener('submit', function(e) {
@@ -74,16 +80,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Efeito parallax sutil no hero
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.1}px)`;
-        }
+    // 4. Efeito hover nos botões
+    const buttons = document.querySelectorAll('.cta-primary, .cta-secondary, .cta-header');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
     });
 
-    // Contador animado para métricas
+    // 5. Header que se esconde ao rolar
+    let lastScrollTop = 0;
+    const header = document.querySelector('.header');
+    
+    if (header) {
+        header.style.transition = 'transform 0.3s ease-in-out';
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // Scrolling down - esconder header
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up - mostrar header
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+    }
+
+    // 6. Contador animado para métricas
     function animateCounter(element, target, duration = 2000) {
         let start = 0;
         const increment = target / (duration / 16);
@@ -114,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         animateCounter(counter, number);
                     }
                 });
+                counterObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.5 });
@@ -124,80 +156,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (socialProof) counterObserver.observe(socialProof);
     if (successCases) counterObserver.observe(successCases);
 
-    // Efeito hover nos botões
-    const buttons = document.querySelectorAll('.cta-primary, .cta-secondary, .cta-header');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px) scale(1.05)';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
+    // 7. Efeito de loading da página
+    window.addEventListener('load', function() {
+        document.body.classList.add('loaded');
     });
 
-    // Efeito de digitação no título principal
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
-        heroTitle.style.borderRight = '2px solid var(--azul-escuro)';
-        
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            } else {
-                heroTitle.style.borderRight = 'none';
-            }
-        }
-        
-        // Iniciar efeito após um pequeno delay
-        setTimeout(typeWriter, 500);
-    }
-
-    // Adicionar classe de scroll para header
-    let lastScrollTop = 0;
-    const header = document.querySelector('.header');
-    
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            header.style.transform = 'translateY(-100%)';
-        } else {
-            // Scrolling up
-            header.style.transform = 'translateY(0)';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
-
-    // Adicionar transição suave ao header
-    if (header) {
-        header.style.transition = 'transform 0.3s ease-in-out';
-    }
+    console.log('Todas as funcionalidades foram inicializadas!');
 });
 
-// Função para scroll suave
-function smoothScrollTo(element) {
-    element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    });
-}
-
-// Adicionar efeito de loading na página
-window.addEventListener('load', function() {
-    document.body.classList.add('loaded');
-});
-
-// Adicionar estilos de loading
+// Adicionar estilos CSS via JavaScript para evitar conflitos
 const style = document.createElement('style');
 style.textContent = `
+    /* Loading da página */
     body {
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
@@ -207,15 +177,36 @@ style.textContent = `
         opacity: 1;
     }
     
+    /* Animações de entrada */
     .fade-in {
         opacity: 0;
         transform: translateY(30px);
         transition: all 0.6s ease-out;
     }
     
-    .fade-in.visible {
+    .fade-in-visible {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    
+    /* Garantir que elementos específicos tenham animação */
+    .step, .benefit, .case, .faq-item {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+    
+    .step.fade-in-visible, 
+    .benefit.fade-in-visible, 
+    .case.fade-in-visible, 
+    .faq-item.fade-in-visible {
         opacity: 1;
         transform: translateY(0);
+    }
+    
+    /* Transições suaves para botões */
+    .cta-primary, .cta-secondary, .cta-header {
+        transition: all 0.3s ease;
     }
 `;
 document.head.appendChild(style);
